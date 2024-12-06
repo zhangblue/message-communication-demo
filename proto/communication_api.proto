@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package api.msg.model;
+
+service GrpcMsgApi {
+  // 单向通信。客户端->服务端
+  rpc Unidirectional(Req) returns (Rsp) {}
+}
+
+
+// 客户端的请求
+message Req {
+  oneof input{
+    Heartbeat heart_beat = 2;
+    CompletionStatus completion_status = 3;
+  }
+}
+
+// 服务端的响应
+message Rsp{
+  oneof output{
+    DoNothing do_nothing = 2;
+    Buy buy = 3;
+    Wash wash = 4;
+    Cook cook = 5;
+  }
+}
+
+// 任务完成情况
+message CompletionStatus{
+  int32 code = 1;
+  string msg = 2;
+}
+
+// 心跳
+message Heartbeat{
+  int32 count = 1;
+  string agent_id = 2;
+}
+
+// 什么都不做
+message DoNothing{
+}
+
+// 买菜
+message Buy{
+  string msg = 2;
+}
+
+// 洗菜
+message Wash{
+  string msg = 2;
+}
+
+// 做饭
+message Cook{
+  string msg = 2;
+}
